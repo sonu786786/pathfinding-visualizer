@@ -1,16 +1,81 @@
-1 )What is the use of types.ts file ? 
-Ans) types.ts is used to centralize shared TypeScript interfaces and types so that algorithms, components, and state management all follow a consistent data contract.
+# 📘 Learning Notes – Pathfinding Visualizer
 
-2) Why using a useRef hook for isVisualizationRunningRef instead of a useState hook improves performance for frequent checks, especially during mouse events.
-Ans)  The reason useRef improves performance in this scenario is because refs do not cause re-renders when updated, whereas changing the value of a useState hook does trigger a re-render of the component.
+This document captures key React and TypeScript concepts I learned while building the **Pathfinding Visualizer** project.
 
-3) What is re-render?
-Ans) when a component re-renders, React efficiently updates only the necessary parts of the user interface that have changed. It's more like refreshing or repainting a specific section of the screen based on new data (state or props).
+---
 
-Think of it like this:
+## 1️⃣ Why do we use `types.ts`?
 
-Reloading the application: Imagine closing a book and opening it again from the very beginning. Everything is reset.
-Re-rendering a component: Imagine you're reading a digital book, and you highlight a sentence. The rest of the page stays the same, but that one sentence visually changes. React only "repaints" that highlighted sentence, not the whole page or book.
-Re-renders are a core part of how React keeps your UI in sync with your data, but too many unnecessary re-renders can impact performance, which is why hooks like useRef are useful in specific situations.
+### ❓ Question  
+What is the use of the `types.ts` file?
 
-4) 
+### ✅ Answer  
+`types.ts` is used to **centralize shared TypeScript interfaces and types** so that algorithms, components, and state management all follow a **consistent data contract**.
+
+### 💡 Why this matters
+- Avoids duplicate type definitions
+- Improves maintainability as the project grows
+- Ensures type safety across:
+  - algorithms
+  - React components
+  - grid/state logic
+
+In short, `types.ts` acts as a **single source of truth for data structures**.
+
+---
+
+## 2️⃣ Why use `useRef` instead of `useState` for `isVisualizationRunningRef`?
+
+### ❓ Question  
+Why does using `useRef` for `isVisualizationRunningRef` improve performance compared to `useState`, especially during frequent mouse events?
+
+### ✅ Answer  
+`useRef` improves performance because **updating a ref does not trigger a component re-render**, whereas updating state with `useState` **does trigger a re-render**.
+
+### 💡 Practical Insight
+In this project:
+- Mouse events (hover, drag, click) fire **very frequently**
+- Using `useState` would cause unnecessary re-renders
+- `useRef` allows us to:
+  - track whether visualization is running
+  - read/update the value instantly
+  - avoid UI performance issues
+
+👉 **Rule of thumb**:  
+Use `useRef` when you need to store mutable values **without affecting rendering**.
+
+---
+
+## 3️⃣ What is a re-render in React?
+
+### ❓ Question  
+What does it mean when a component re-renders?
+
+### ✅ Answer  
+When a component re-renders, React **efficiently updates only the parts of the UI that depend on changed state or props**. It does **not reload the entire application**.
+
+### 🧠 Intuition
+- Re-render ≠ page reload
+- React performs a **virtual DOM diff**
+- Only the changed UI elements are updated
+
+### 📖 Analogy
+- **Reloading an app**: Closing a book and opening it again from the start  
+- **Re-rendering a component**: Highlighting one sentence in a digital book — only that sentence changes, the rest stays the same
+
+### ⚠️ Performance Note
+Re-renders are essential for keeping UI in sync with data, but:
+- Too many unnecessary re-renders can hurt performance
+- Hooks like `useRef`, memoization, and proper state design help optimize this
+
+---
+
+## 🧠 Key Takeaways
+
+- Centralized types improve consistency and scalability
+- `useRef` is ideal for frequently updated values that don’t affect UI
+- Understanding re-renders is critical for writing performant React apps
+
+---
+
+📌 *This document will be continuously updated as I learn more concepts while extending the project.*
